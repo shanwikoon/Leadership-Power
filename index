@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Power and Influence in the Workplace</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        #game-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #e94e77;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+        }
+        #metrics-table th, #metrics-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        #metrics-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #choices button {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            cursor: pointer;
+        }
+        #feedback {
+            margin-bottom: 40px;
+            font-style: italic;
+            background-color: #f9f9f9;
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        #question {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        #power-types-info {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #eef;
+            border-radius: 8px;
+        }
+        #power-types-info h3 {
+            color: #333;
+            font-size: 1.2em;
+        }
+        #power-types-info p {
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h2>LSST Leadership Training Games</h2>
+        <h1>Power and Influence in the Workplace</h1>
+        <div id="power-types-info">
+            <h3>Understanding Types of Power:</h3>
+            <p><strong>Legitimate Power:</strong> Derived from an official position or title.</p>
+            <p><strong>Reward Power:</strong> Based on the ability to give incentives or rewards.</p>
+            <p><strong>Coercive Power:</strong> Based on the ability to enforce consequences for non-compliance.</p>
+            <p><strong>Referent Power:</strong> Rooted in respect, admiration, and likability.</p>
+            <p><strong>Expert Power:</strong> Stemming from specialized knowledge or expertise.</p>
+            <p>As you make decisions, consider how each power type impacts your team's morale, productivity, and overall influence.</p>
+        </div>
+        
+        <table id="metrics-table">
+            <tr>
+                <th>Funds</th>
+                <th>Morale</th>
+                <th>Productivity</th>
+                <th>Leadership Influence</th>
+                <th>Satisfaction</th>
+                <th>Score</th>
+            </tr>
+            <tr>
+                <td id="funds">£100,000</td>
+                <td id="morale">50</td>
+                <td id="productivity">50</td>
+                <td id="leadershipInfluence">50</td>
+                <td id="satisfaction">50</td>
+                <td id="score">0</td>
+            </tr>
+        </table>
+
+        <div id="feedback"></div> <!-- Decision Outcome section -->
+        <div id="question"></div>  <!-- Scenario question display -->
+        <div id="choices"></div>   <!-- Choices buttons generated here -->
+    </div>
+
+    <script>
+        // Scenarios array with detailed feedback
+        const scenarios = [
+            {
+                question: "You have an urgent project deadline. How do you motivate your team to meet it?",
+                choices: [
+                    {
+                        text: "Use reward power, promising bonuses for meeting the deadline.",
+                        fundChange: -5000,  
+                        moraleChange: 5,
+                        productivityChange: 10,
+                        leadershipInfluenceChange: 5,
+                        satisfactionChange: 5,
+                        scoreChange: 12,
+                        powerType: "Reward",
+                        detailedFeedback: "Your team is invigorated by the promise of bonuses. They rally together, working extra hours to ensure the deadline is met. The atmosphere is filled with a sense of purpose and excitement. The incentive not only boosts productivity but also morale, as team members feel their efforts are recognized and rewarded."
+                    },
+                    {
+                        text: "Use coercive power, warning about consequences for delays.",
+                        fundChange: 0,
+                        moraleChange: -5,
+                        productivityChange: 10,
+                        leadershipInfluenceChange: -5,
+                        satisfactionChange: -10,
+                        scoreChange: 6,
+                        powerType: "Coercive",
+                        detailedFeedback: "Under the pressure of potential consequences, your team accelerates their work to meet the deadline. However, the tense environment leads to stress and decreased morale. While productivity spikes temporarily, the team's satisfaction drops, and some members begin to feel resentment towards the leadership approach."
+                    },
+                    {
+                        text: "Use expert power, guiding the team with your expertise.",
+                        fundChange: 0,
+                        moraleChange: 5,
+                        productivityChange: 5,
+                        leadershipInfluenceChange: 10,
+                        satisfactionChange: 5,
+                        scoreChange: 15,
+                        powerType: "Expert",
+                        detailedFeedback: "You step in to offer your expertise, helping the team overcome challenges efficiently. Your guidance streamlines processes, and the team appreciates your support. Morale improves as team members feel more competent and supported, and your influence as a knowledgeable leader strengthens."
+                    }
+                ]
+            },
+            {
+                question: "A new policy must be implemented across teams. How do you proceed?",
+                choices: [
+                    {
+                        text: "Communicate the policy and emphasize its benefits.",
+                        fundChange: 0,
+                        moraleChange: 5,
+                        productivityChange: 5,
+                        leadershipInfluenceChange: 5,
+                        satisfactionChange: 10,
+                        scoreChange: 15,
+                        powerType: "Legitimate",
+                        detailedFeedback: "By openly communicating the new policy and highlighting its advantages, you leverage your legitimate power effectively. Team members appreciate the transparency and understand the reasons behind the change. This approach fosters trust and acceptance, leading to improved morale and satisfaction as employees feel respected and valued."
+                    },
+                    {
+                        text: "Mandate compliance with strict monitoring.",
+                        fundChange: 0,
+                        moraleChange: -10,
+                        productivityChange: 10,
+                        leadershipInfluenceChange: -5,
+                        satisfactionChange: -5,
+                        scoreChange: 10,
+                        powerType: "Coercive",
+                        detailedFeedback: "Enforcing strict compliance creates an atmosphere of control and fear. While productivity might increase in the short term due to close monitoring, morale suffers as employees feel micromanaged. Trust erodes, and satisfaction declines, which could lead to long-term issues with employee retention and engagement."
+                    },
+                    {
+                        text: "Delegate policy details to team leads, encouraging them to adapt it.",
+                        fundChange: -2000,
+                        moraleChange: 5,
+                        productivityChange: 5,
+                        leadershipInfluenceChange: 10,
+                        satisfactionChange: 5,
+                        scoreChange: 13,
+                        powerType: "Referent",
+                        detailedFeedback: "By empowering team leads to adapt the policy details, you show trust in their abilities and foster a sense of ownership. This approach boosts your influence as a leader who values input and collaboration. Morale and productivity see positive effects as teams feel more connected and engaged with the implementation process."
+                    }
+                ]
+            },
+            {
+                question: "Two team members disagree on project priorities. What do you do?",
+                choices: [
+                    {
+                        text: "Mediate a compromise between them.",
+                        fundChange: -1000,
+                        moraleChange: 5,
+                        productivityChange: 5,
+                        leadershipInfluenceChange: 5,
+                        satisfactionChange: 5,
+                        scoreChange: 14,
+                        powerType: "Referent",
+                        detailedFeedback: "You take the time to listen to both team members and help them find common ground. By mediating, you show that you value their opinions and are committed to a collaborative environment. This strengthens team cohesion and enhances your reputation as a fair and supportive leader."
+                    },
+                    {
+                        text: "Make an authoritative decision on priorities.",
+                        fundChange: 0,
+                        moraleChange: -5,
+                        productivityChange: 10,
+                        leadershipInfluenceChange: 5,
+                        satisfactionChange: -5,
+                        scoreChange: 11,
+                        powerType: "Legitimate",
+                        detailedFeedback: "Using your authority, you decide on the project's priorities. While this resolves the conflict quickly and boosts productivity, it may leave the team members feeling unheard. Morale and satisfaction may dip as they might perceive a lack of consideration for their input."
+                    },
+                    {
+                        text: "Encourage them to brainstorm solutions and decide together.",
+                        fundChange: 0,
+                        moraleChange: 5,
+                        productivityChange: 0,
+                        leadershipInfluenceChange: 10,
+                        satisfactionChange: 5,
+                        scoreChange: 13,
+                        powerType: "Referent",
+                        detailedFeedback: "By encouraging the team members to collaborate on a solution, you foster an environment of mutual respect and teamwork. This approach enhances your influence as a leader who promotes empowerment and collective problem-solving, leading to improved morale and satisfaction."
+                    }
+                ]
+            },
+            {
+                question: "You're assigning tasks for a new project. How do you decide?",
+                choices: [
+                    {
+                        text: "Delegate tasks to team members based on their expertise.",
+                        fundChange: -2000,
+                        moraleChange: 5,
+                        productivityChange: 5,
+                        leadershipInfluenceChange: 10,
+                        satisfactionChange: 5,
+                        scoreChange: 14,
+                        powerType: "Expert",
+                        detailedFeedback: "Leveraging your understanding of each team member's strengths, you assign tasks that align with their skills. This boosts efficiency and productivity, as everyone works in areas where they excel. Team members feel recognized for their abilities, enhancing morale and your credibility as a leader."
+                    },
+                    {
+                        text: "Assign tasks to control project outcomes tightly.",
+                        fundChange: 0,
+                        moraleChange: -5,
+                        productivityChange: 10,
+                        leadershipInfluenceChange: -5,
+                        satisfactionChange: -5,
+                        scoreChange: 10,
+                        powerType: "Coercive",
+                        detailedFeedback: "By tightly controlling task assignments, you aim for specific outcomes. While this might increase productivity in the short term, it can lead to frustration among team members who feel micromanaged. Morale and satisfaction may decline as creativity and autonomy are stifled."
+                    },
+                    {
+                        text: "Allow team members to choose tasks they feel confident about.",
+                        fundChange: 0,
+                        moraleChange: 10,
+                        productivityChange: 5,
+                        leadershipInfluenceChange: 5,
+                        satisfactionChange: 10,
+                        scoreChange: 16,
+                        powerType: "Reward",
+                        detailedFeedback: "Giving team members the freedom to select their tasks empowers them and boosts morale. They are likely to be more engaged and motivated, leading to higher satisfaction. While this approach fosters a positive environment, ensure that all necessary tasks are covered effectively."
+                    }
+                ]
+            },
+            {
+                question: "A new team member is struggling to fit in. How do you help them integrate?",
+                choices: [
+                    {
+                        text: "Organize a team-building event to help them bond with others.",
+                        fundChange: -1000,
+                        moraleChange: 10,
+                        productivityChange: 0,
+                        leadershipInfluenceChange: 5,
+                        satisfactionChange: 10,
+                        scoreChange: 15,
+                        powerType: "Referent",
+                        detailedFeedback: "By organizing a team-building event, you create an opportunity for the new member to connect with colleagues in a relaxed setting. This enhances team cohesion and shows that you value interpersonal relationships. Morale and satisfaction improve as the team feels more unified."
+                    },
+                    {
+                        text: "Assign a senior team member as their mentor.",
+                        fundChange: 0,
+                        moraleChange: 5,
+                        productivityChange: 5,
+                        leadershipInfluenceChange: 5,
+                        satisfactionChange: 5,
+                        scoreChange: 12,
+                        powerType: "Expert",
+                        detailedFeedback: "Pairing the new member with a mentor provides them with guidance and support. This helps them acclimate more quickly and effectively, improving their productivity. The mentor also gains leadership experience, benefiting both individuals and reinforcing a culture of knowledge sharing."
+                    },
+                    {
+                        text: "Give them clear instructions on what is expected and monitor progress closely.",
+                        fundChange: 0,
+                        moraleChange: -5,
+                        productivityChange: 10,
+                        leadershipInfluenceChange: -5,
+                        satisfactionChange: -5,
+                        scoreChange: 8,
+                        powerType: "Coercive",
+                        detailedFeedback: "Providing strict instructions and close monitoring may help the new member understand their role quickly. However, this approach can be intimidating and hinder their ability to integrate socially. Morale and satisfaction may decrease due to the pressure and lack of autonomy."
+                    }
+                ]
+            },
+            {
+                question: "The team has been working hard on a major project. How do you acknowledge their efforts?",
+                choices: [
+                    {
+                        text: "Give out bonuses to reward their hard work.",
+                        fundChange: -5000,
+                        moraleChange: 10,
+                        productivityChange: 5,
+                        leadershipInfluenceChange: 5,
+                        satisfactionChange: 10,
+                        scoreChange: 18,
+                        powerType: "Reward",
+                        detailedFeedback: "Awarding bonuses demonstrates tangible appreciation for the team's efforts. This boosts morale and satisfaction significantly, as employees feel their hard work is valued. It can also motivate continued high performance, though it impacts the company's funds."
+                    },
+                    {
+                        text: "Thank them publicly in a team meeting.",
+                        fundChange: 0,
+                        moraleChange: 5,
+                        productivityChange: 0,
+                        leadershipInfluenceChange: 10,
+                        satisfactionChange: 5,
+                        scoreChange: 15,
+                        powerType: "Referent",
+                        detailedFeedback: "Publicly recognizing the team's hard work enhances your relationship with them. It boosts morale and reinforces positive behaviors. This approach strengthens your influence as a leader who values and acknowledges contributions without financial incentives."
+                    },
+                    {
+                        text: "Offer them an extra day off as a reward.",
+                        fundChange: 0,
+                        moraleChange: 10,
+                        productivityChange: -5,
+                        leadershipInfluenceChange: 5,
+                        satisfactionChange: 10,
+                        scoreChange: 16,
+                        powerType: "Reward",
+                        detailedFeedback: "Providing an extra day off rewards the team with valuable personal time. This gesture is appreciated and boosts morale and satisfaction. However, it may temporarily reduce productivity, so planning is needed to minimize the impact on ongoing work."
+                    }
+                ]
+            },
+            {
+                question: "A major decision needs to be made regarding project direction. How do you proceed?",
+                choices: [
+                    {
+                        text: "Make the decision yourself, as the project lead.",
+                        fundChange: 0,
+                        moraleChange: -5,
+                        productivityChange: 10,
+                        leadershipInfluenceChange: 5,
+                        satisfactionChange: -5,
+                        scoreChange: 12,
+                        powerType: "Legitimate",
+                        detailedFeedback: "Taking charge and making the decision quickly can keep the project moving forward efficiently. However, bypassing team input may lead to decreased morale and satisfaction, as team members might feel their perspectives are undervalued."
+                    },
+                    {
+                        text: "Consult with key team members before making a decision.",
+                        fundChange: 0,
+                        moraleChange: 5,
+                        productivityChange: 5,
+                        leadershipInfluenceChange: 10,
+                        satisfactionChange: 5,
+                        scoreChange: 15,
+                        powerType: "Referent",
+                        detailedFeedback: "By involving key team members in the decision-making process, you encourage collaboration and buy-in. This approach enhances morale and satisfaction, as employees feel their expertise and opinions are respected. It may take more time but can lead to better outcomes."
+                    },
+                    {
+                        text: "Take a vote to let the team decide the direction collectively.",
+                        fundChange: 0,
+                        moraleChange: 5,
+                        productivityChange: 0,
+                        leadershipInfluenceChange: 10,
+                        satisfactionChange: 5,
+                        scoreChange: 13,
+                        powerType: "Referent",
+                        detailedFeedback: "Allowing the team to vote empowers them and fosters a democratic environment. While this can improve morale and satisfaction, it may slow down the decision-making process and potentially lead to a less strategic choice if not guided properly."
+                    }
+                ]
+            },
+            {
+                question: "A technical problem has come up, and the team is unsure how to proceed. How do you handle it?",
+                choices: [
+                    {
+                        text: "Use your technical expertise to guide the team through the problem.",
+                        fundChange: 0,
+                        moraleChange: 5,
+                        productivityChange: 10,
+                        leadershipInfluenceChange: 10,
+                        satisfactionChange: 5,
+                        scoreChange: 15,
+                        powerType: "Expert",
+                        detailedFeedback: "Stepping in with your technical expertise helps resolve the issue efficiently. The team appreciates your knowledge and guidance, which boosts productivity and your leadership influence. Morale improves as the team feels supported in overcoming challenges."
+                    },
+                    {
+                        text: "Assign the problem to the most technically skilled member of the team.",
+                        fundChange: 0,
+                        moraleChange: 5,
+                        productivityChange: 5,
+                        leadershipInfluenceChange: 5,
+                        satisfactionChange: 5,
+                        scoreChange: 13,
+                        powerType: "Legitimate",
+                        detailedFeedback: "Delegating the problem to a skilled team member shows trust in their abilities. It can boost their confidence and development, while the team sees that expertise is recognized. This approach maintains productivity and supports team growth."
+                    },
+                    {
+                        text: "Encourage the team to brainstorm and find a solution collectively.",
+                        fundChange: 0,
+                        moraleChange: 10,
+                        productivityChange: 5,
+                        leadershipInfluenceChange: 10,
+                        satisfactionChange: 10,
+                        scoreChange: 16,
+                        powerType: "Referent",
+                        detailedFeedback: "Facilitating a team brainstorming session fosters collaboration and innovation. Morale and satisfaction rise as team members feel their ideas are valued. This approach may lead to creative solutions and strengthens the team's problem-solving skills."
+                    }
+                ]
+            }
+        ];
+
+        // Game state
+        let gameState = {
+            funds: 100000,
+            morale: 50,
+            productivity: 50,
+            leadershipInfluence: 50,
+            satisfaction: 50,
+            score: 0
+        };
+
+        let currentScenario = 0;
+
+        // Function to update game metrics and display
+        function makeDecision(fundChange = 0, moraleChange = 0, productivityChange = 0, leadershipInfluenceChange = 0, satisfactionChange = 0, scoreChange = 0) {
+            gameState.funds += fundChange;
+            gameState.morale += moraleChange;
+            gameState.productivity += productivityChange;
+            gameState.leadershipInfluence += leadershipInfluenceChange;
+            gameState.satisfaction += satisfactionChange;
+            gameState.score += scoreChange;
+
+            // Ensure metrics stay within 0-100 bounds
+            gameState.morale = Math.max(0, Math.min(100, gameState.morale));
+            gameState.productivity = Math.max(0, Math.min(100, gameState.productivity));
+            gameState.leadershipInfluence = Math.max(0, Math.min(100, gameState.leadershipInfluence));
+            gameState.satisfaction = Math.max(0, Math.min(100, gameState.satisfaction));
+
+            updateDisplay();
+        }
+
+        // Function to display the game metrics on the page
+        function updateDisplay() {
+            document.getElementById('funds').textContent = `£${gameState.funds}`;
+            document.getElementById('morale').textContent = gameState.morale;
+            document.getElementById('productivity').textContent = gameState.productivity;
+            document.getElementById('leadershipInfluence').textContent = gameState.leadershipInfluence;
+            document.getElementById('satisfaction').textContent = gameState.satisfaction;
+            document.getElementById('score').textContent = gameState.score;
+        }
+
+        // Function to display feedback after each decision
+        function provideFeedback(choice) {
+            let feedback = `<hr><strong>Scenario:</strong> ${scenarios[currentScenario].question}<br>`;
+            feedback += `<strong>Your Choice:</strong> "${choice.text}" (${choice.powerType} Power).<br><br>`;
+            feedback += `<strong>Result of your decision:</strong><br>`;
+            feedback += `${choice.detailedFeedback}<br><br>`;
+            document.getElementById('feedback').innerHTML += feedback;
+        }
+
+        // Function to handle player's decision
+        function makeChoice(choiceIndex) {
+            let choice = scenarios[currentScenario].choices[choiceIndex];
+            makeDecision(
+                choice.fundChange,
+                choice.moraleChange,
+                choice.productivityChange,
+                choice.leadershipInfluenceChange,
+                choice.satisfactionChange,
+                choice.scoreChange
+            );
+            provideFeedback(choice);
+            currentScenario++;
+            if (currentScenario < scenarios.length) {
+                displayScenario(currentScenario);
+            } else {
+                endGame();
+            }
+        }
+
+        // Function to display the current scenario
+        function displayScenario(index) {
+            let scenario = scenarios[index];
+            document.getElementById('question').textContent = scenario.question;
+            let choicesDiv = document.getElementById('choices');
+            choicesDiv.innerHTML = '';
+            scenario.choices.forEach((choice, i) => {
+                let button = document.createElement('button');
+                button.textContent = choice.text;
+                button.onclick = function() { makeChoice(i); };
+                choicesDiv.appendChild(button);
+            });
+            // Do not clear feedback here
+        }
+
+        // Function to end the game and display final results
+        function endGame() {
+            document.getElementById('question').textContent = "Game Over!";
+            document.getElementById('choices').innerHTML = '';
+            let finalFeedback = `<hr><strong>Final Score: ${gameState.score}</strong><br><br>`;
+            finalFeedback += `<strong>Performance Breakdown:</strong><br>`;
+            finalFeedback += `Final Funds: £${gameState.funds}<br>`;
+            finalFeedback += `Final Employee Morale: ${gameState.morale}<br>`;
+            finalFeedback += `Final Productivity: ${gameState.productivity}<br>`;
+            finalFeedback += `Final Leadership Influence: ${gameState.leadershipInfluence}<br>`;
+            finalFeedback += `Final Stakeholder Satisfaction: ${gameState.satisfaction}<br><br>`;
+
+            // Provide overall feedback based on the score
+            if (gameState.score >= 100) {
+                finalFeedback += "🌟 Excellent leadership! You've effectively balanced power and influence, resulting in high team morale and productivity.";
+            } else if (gameState.score >= 80) {
+                finalFeedback += "👍 Good job! You've shown a solid understanding of power dynamics, with some areas for improvement.";
+            } else {
+                finalFeedback += "There's room for growth. Consider how different power types affect your team and strive for better balance.";
+            }
+
+            document.getElementById('feedback').innerHTML += finalFeedback;
+        }
+
+        // Start the game after the window loads
+        window.onload = function() {
+            displayScenario(currentScenario);
+            updateDisplay();
+        };
+    </script>
+</body>
+</html>
